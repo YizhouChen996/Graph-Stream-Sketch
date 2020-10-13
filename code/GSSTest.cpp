@@ -1,4 +1,4 @@
-// GSS.cpp : 此文件包含 "main" 函数。程序执行将在此处开始并结束。
+// GSS.cpp : 锟斤拷锟侥硷拷锟斤拷锟斤拷 "main" 锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷执锟叫斤拷锟节此达拷锟斤拷始锟斤拷锟斤拷锟斤拷锟斤拷
 //
 
 #include <iostream>
@@ -10,13 +10,16 @@ using namespace std;
 
 int main()
 {
+    freopen("result.txt", "w", stdout);
     // initialize GSS
-    GSS gss(1000, 4, 16, 2, 16, true, 63399);
+    GSS gss(1000, 4, 16, 2, 16, false, 63399);
 
     // path of dataset
-    ifstream fin("\\out.txt");
+    ifstream fin("./out.txt");
     string line;
-
+    
+    getline(fin, line);
+    
     int count = 0;
 
     while (fin.eof() == false)
@@ -24,14 +27,17 @@ int main()
         getline(fin, line);
 
         // skip non-data line
+        
+        /*
         if (line[0] > '9' || line[0] < '0')
             continue;
+        */
 
         // number of two nodes
         int pos1 = line.find("\t");
-        int pos2 = line.find("\t", pos1 + 1);
+        int pos2 = line.find("\t", pos1+1);
         string num1 = line.substr(0, pos1);
-        string num2 = line.substr(pos1+1, pos2 - pos1);
+        string num2 = line.substr(pos1+1, pos2-pos1-1);
         //cout << num1 << " " << num2 << endl;
 
         // insert an edge
@@ -46,18 +52,22 @@ int main()
     fin.close();
 
     // path of ground truth
-    ifstream fin2("\\ground_truth.txt");
+    // ifstream fin2("\\ground_truth.txt");
+    ifstream fin2("./out.txt");
+    getline(fin2, line);
+
 
     while (fin2.eof() == false) {
         getline(fin2, line);
 
-        int pos1 = line.find(" ");
-        int pos2 = line.find(" ", pos1 + 1);
+        int pos1 = line.find("\t");
+        int pos2 = line.find("\t", pos1+1);
         string num1 = line.substr(0, pos1);
-        string num2 = line.substr(pos1 + 1, pos2 - pos1);
+        string num2 = line.substr(pos1+1, pos2-pos1-1);
         int result = gss.edgeQuery(num1, num2);
 
-        cout << num1 << " " << num2 << " " << result << endl;
+        cout << num1 << " " << num2 << " " << result <<endl;
+        //printf("The result of (%s,%s) is %d", num1.c_str(), num2.c_str(), result);
     }
 
     fin2.close();
