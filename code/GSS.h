@@ -222,7 +222,8 @@ void GSS::insert(string s1, string s2,int weight)// s1 is the ID of the source n
 					node->weight += weight;
 					node->next = NULL;
 				}
-				buffer.push_back(node); 
+				
+				buffer.push_back(node);
 			}	
 		}
 		delete [] tmp1;
@@ -377,7 +378,7 @@ int GSS::edgeQuery(string s1, string s2)// s1 is the ID of the source node, s2 i
 		int pos = p1*w + p2;
 		for (int j = 0; j<s; j++)
 		{
-		
+			\\ 1.修改insert函数，fingerprint冲突时直接weight加一；2.修改edgequery，不用判断直接返回pos位置的值
 			if ((((value[pos].idx >> (j << 3))&((1 << 8) - 1)) == (index1 | (index2 << 4))) && (value[pos].src[j] == g1) && (value[pos].dst[j] == g2))
 			{
 				delete []tmp1;

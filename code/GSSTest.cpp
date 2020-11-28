@@ -12,7 +12,7 @@ int main()
 {
     freopen("result.txt", "w", stdout);
     // initialize GSS
-    GSS gss(1000, 4, 16, 2, 16, false, 63399);
+    GSS gss(1, 4, 16, 2, 16, false, 63399);
 
     // path of dataset
     ifstream fin("./out.txt");
@@ -42,6 +42,8 @@ int main()
 
         // insert an edge
         gss.insert(num1, num2, 1);
+        if(gss.buffer.size()!=0)
+            cout<<gss.buffer.size()<<endl;
         count++;
 
         // Give a hint every 10000 updates        
@@ -65,8 +67,8 @@ int main()
         string num1 = line.substr(0, pos1);
         string num2 = line.substr(pos1+1, pos2-pos1-1);
         int result = gss.edgeQuery(num1, num2);
-
-        cout << num1 << " " << num2 << " " << result <<endl;
+        cout<<gss.buffer.size()<<endl;
+        //cout << num1 << " " << num2 << " " << result <<endl;
         //printf("The result of (%s,%s) is %d", num1.c_str(), num2.c_str(), result);
     }
 
