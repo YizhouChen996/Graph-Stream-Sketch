@@ -12,7 +12,7 @@
 #ifndef HASHTABLE_H
 #define HASHTABLE_H
 #include "hashTable.h"
-#include "GraphSketchUndirected.h" 
+//#include "GraphSketchUndirected.h" 
 #include "VF2.h"
 #endif // HASHTABLE_H
 using namespace std;

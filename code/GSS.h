@@ -175,6 +175,35 @@ void GSS::insert(string s1, string s2,int weight)// s1 is the ID of the source n
 			if(inserted)
 				break;
 		} 
+
+		if(!inserted)
+		{
+			for(int i=0;i<p;i++)
+			{
+				key = (key*timer+prime)%bigger_p;
+				int index = key%(r*r);
+				int index1 = index/r;
+				int index2 = index%r; 
+				int p1 = (h1+tmp1[index1])%w;
+				int p2 = (h2+tmp2[index2])%w;
+
+
+				int pos = p1*w + p2;
+				for (int j = 0; j < s; j++)
+				{
+					if ( ( ((value[pos].idx>>(j<<3))&((1<<8)-1)) == (index1|(index2<<4)) ) || ((value[pos].src[j] == g1) && (value[pos].dst[j] == g2)) )
+					{
+						value[pos].weight[j] += weight;
+						inserted = true;
+						break;
+					}
+				}
+				if(inserted)
+					break;
+			} 
+		}
+
+		/*	
 		if(!inserted)
 		{
 		    	
@@ -226,6 +255,7 @@ void GSS::insert(string s1, string s2,int weight)// s1 is the ID of the source n
 				buffer.push_back(node);
 			}	
 		}
+		*/
 		delete [] tmp1;
 		delete [] tmp2;
 	return;
@@ -378,8 +408,8 @@ int GSS::edgeQuery(string s1, string s2)// s1 is the ID of the source node, s2 i
 		int pos = p1*w + p2;
 		for (int j = 0; j<s; j++)
 		{
-			// 1.修改insert函数，fingerprint冲突时直接weight加一；2.修改edgequery，不用判断直接返回pos位置的值
-			if ((((value[pos].idx >> (j << 3))&((1 << 8) - 1)) == (index1 | (index2 << 4))) && (value[pos].src[j] == g1) && (value[pos].dst[j] == g2))
+			// 1.修改insert函数，fingerprint冲突时直接weight加一；2.修改edgequery，不用判断直接返回pos位置
+			if ((((value[pos].idx >> (j << 3))&((1 << 8) - 1)) == (index1 | (index2 << 4))) || ((value[pos].src[j] == g1) && (value[pos].dst[j] == g2)))
 			{
 				delete []tmp1;
 				delete []tmp2;
@@ -388,6 +418,7 @@ int GSS::edgeQuery(string s1, string s2)// s1 is the ID of the source node, s2 i
 		}
 		
 	}
+	/*
 	unsigned int k1 = (h1 << f) + g1;
 	unsigned int k2 = (h2 << f) + g2;
 	map<unsigned int, int>::iterator it = index.find(k1);
@@ -406,6 +437,7 @@ int GSS::edgeQuery(string s1, string s2)// s1 is the ID of the source node, s2 i
 			node = node->next;
 		}
 	}
+	*/
 		delete []tmp1;
 		delete []tmp2;
 		return 0;
